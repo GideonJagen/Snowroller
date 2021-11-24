@@ -1,12 +1,13 @@
 import numpy as np
 import networkx as nx
 from matplotlib import pyplot as plt
+from agent import Agent
+import time
 
 class Graph():
     def __init__(self) -> None:
         self.graph = self._init_graph()
         self.component_population = np.zeros(self.encode_slope(self.graph.number_of_nodes(), self.graph.number_of_nodes()) + 1)
-        
 
     def _init_graph(self):
         graph = nx.DiGraph()
@@ -45,14 +46,14 @@ class Graph():
         for agent_position in agent_positions:
             self.component_population[agent_position] += 1
 
-
-
 def main():
     g = Graph()
-    slope_index = g.encode_slope(2, 2)
-    start_node, end_node = g.decode_slope(slope_index)
-    print(start_node)
-    print(end_node)
+    
+    agent = Agent(g, start_node=1)
+    for i in range(1000):
+        agent.update(dt=1)
+        agent.print_status()
+        time.sleep(1)
 
 if __name__ == '__main__':
     main()
