@@ -10,13 +10,13 @@ class Graph():
 
     def _init_graph(self):
         graph = nx.DiGraph()
-        graph.add_edge(1, 2, lift = True, queue = 0)    #L
-        graph.add_edge(1, 4, lift = True, queue = 0)    #L
-        graph.add_edge(3, 4, lift = True, queue = 0)    #L
-        graph.add_edge(5, 4, lift = True, queue = 0)    #L
+        graph.add_edge(1, 2, lift = True, queue = 0 capacity=3200, time=3.5)    #L
+        graph.add_edge(1, 4, lift = True, queue = 0, capacity=1400, time=5)    #L
+        graph.add_edge(3, 4, lift = True, queue = 0, capacity=1200, time=3.5)    #L
+        graph.add_edge(5, 4, lift = True, queue = 0, capacity=1000, time=1)    #L
 
         #slope = nx.DiGraph()
-        graph.add_edge(2, 1, lift = False, difficulty = 1)    #B
+        graph.add_edge(2, 1, lift = False, difficulty = 1,)    #B
         graph.add_edge(2, 3, lift = False, difficulty = 0.25)    #B
         graph.add_edge(4, 1, lift = False, difficulty = 0.5)    #B
         graph.add_edge(4, 5, lift = False, difficulty = 0.75)    #B
