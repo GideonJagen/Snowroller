@@ -1,27 +1,26 @@
 import numpy as np
 import networkx as nx
 from matplotlib import pyplot as plt
-from agent import Agent
-import time
 
-class Graph():
+class Graph:
     def __init__(self) -> None:
         self.graph = self._init_graph()
         self.component_population = np.zeros(self.encode_slope(self.graph.number_of_nodes(), self.graph.number_of_nodes()) + 1)
+        
 
     def _init_graph(self):
         graph = nx.DiGraph()
-        graph.add_edge(1, 2, lift = True, queue = 0, capacity=53, time=3.5)    #L
-        graph.add_edge(1, 4, lift = True, queue = 0, capacity=23, time=5)    #L
-        graph.add_edge(3, 4, lift = True, queue = 0, capacity=20, time=3.5)    #L
-        graph.add_edge(5, 4, lift = True, queue = 0, capacity=17, time=1)    #L
+        graph.add_edge(1, 2, lift = True, queue = 0, capacity=53, time=3.5)
+        graph.add_edge(1, 4, lift = True, queue = 0, capacity=23, time=5)
+        graph.add_edge(3, 4, lift = True, queue = 0, capacity=20, time=3.5)
+        graph.add_edge(5, 4, lift = True, queue = 0, capacity=17, time=1)
 
         #slope = nx.DiGraph()
-        graph.add_edge(2, 1, lift = False, difficulty = 1, )    #B
-        graph.add_edge(2, 3, lift = False, difficulty = 0.25)    #B
-        graph.add_edge(4, 1, lift = False, difficulty = 0.5)    #B
-        graph.add_edge(4, 5, lift = False, difficulty = 0.75)    #B
-        graph.add_edge(5, 3, lift = False, difficulty = 0.75)    #B
+        graph.add_edge(2, 1, lift = False, difficulty = 1)
+        graph.add_edge(2, 3, lift = False, difficulty = 0.25)
+        graph.add_edge(4, 1, lift = False, difficulty = 0.5)
+        graph.add_edge(4, 5, lift = False, difficulty = 0.75)
+        graph.add_edge(5, 3, lift = False, difficulty = 0.75)
         return graph
 
     def get_neighbors(self, position):
@@ -46,14 +45,15 @@ class Graph():
         for agent_position in agent_positions:
             self.component_population[agent_position] += 1
 
+
+
 def main():
     g = Graph()
-    
-    agent = Agent(g, start_node=1)
-    for i in range(1000):
-        agent.update(dt=1)
-        agent.print_status()
-        time.sleep(1)
+    slope_index = g.encode_slope(5,3)
+    start_node, end_node = g.decode_slope(slope_index)
+    print(slope_index)
+    print(start_node)
+    print(end_node)
 
 if __name__ == '__main__':
     main()
