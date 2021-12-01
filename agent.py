@@ -17,6 +17,8 @@ class Agent:
 		#self.queue_times = np.array()
 		self._scoring = self._score_edges()
 
+		self._parent_graph.component_population[start_node] += 1
+
 	def _score_edges(self):
 		scoring = {}
 

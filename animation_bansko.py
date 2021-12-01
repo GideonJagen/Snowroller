@@ -55,14 +55,12 @@ pos = {1: (0.9,0),2:(1.3,8),3:(1.3,4),4:(2.15,11),5:(1.87,22),6:(1.8,17),7:(1.75
 colors = nx.get_edge_attributes(slope,'color').values()                                                                                                          
 options = {
     "font_size": 9,
-    "node_size": 200,
+    "node_size": 1000,
     "node_color": "white",
     "edgecolors": "black",
     "linewidths": 1.2,
     "width": 1.4,
-}
-nx.draw_networkx(lift, pos,style="dashed", **options)
-nx.draw_networkx(slope, pos, edge_color=colors,connectionstyle="arc3,rad=0.1", **options)                                                                                                       
+}                                                                                                     
 
 graph = Graph(bansko=True)
 agents = []
