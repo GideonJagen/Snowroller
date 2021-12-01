@@ -1,6 +1,7 @@
 import numpy as np
 import networkx as nx
 from matplotlib import pyplot as plt
+import math
 
 class Graph:
     def __init__(self) -> None:
@@ -23,6 +24,10 @@ class Graph:
         graph.add_edge(5, 3, lift = False, difficulty = 0.75, time = 3)
         return graph
 
+    def _set_edge_attribute(self, edge, attribute, value):
+        start, end = self.decode_slope(edge)
+        self.graph[start][end][attribute] = value
+
     def get_neighbors(self, position):
         return self.graph[position]
 
@@ -33,17 +38,16 @@ class Graph:
 
     def decode_slope(self, slope_index):
         # inverted Cantor pairing function
-        slope_index = slope_index - self.graph.number_of_nodes()
-        w = np.floor((np.sqrt(8*slope_index + 1) -1)/2)
+        d = slope_index - self.graph.number_of_nodes()
+        w = np.floor((np.sqrt(8*d + 1) -1)/2)
         t = (np.square(w) + w)/2
-        end_node = slope_index - t
+        end_node = d - t
         start_node = w - end_node
-        return start_node, end_node
+        return int(start_node), int(end_node)
 
-    def count_component_population(self, agent_positions):
-        self.component_population[:] = 0
-        for agent_position in agent_positions:
-            self.component_population[agent_position] += 1
+    def reposition_agent(self, current_position, new_position):
+        self.component_population[current_position] -= 1
+        self.component_population[new_position] += 1
 
     def get_edge_attribute(self, edge, attribute):
         start, end = self.decode_slope(edge)
@@ -57,10 +61,6 @@ class Graph:
         start, end = self.decode_slope(edge)
         self.graph[start][end]['queue'] -= 1
 
-    def _set_edge_attribute(self, edge, attribute, value):
-        start, end = self.decode_slope(edge)
-        self.graph[start][end][attribute] = value
-
     def get_queues(self):
         queues = [self.graph[1][2]['queue'], self.graph[1][4]['queue'], self.graph[3][4]['queue'], self.graph[5][4]['queue']]
         return queues
@@ -69,9 +69,9 @@ class Graph:
 
 def main():
     g = Graph()
-    slope_index = g.encode_slope(5,3)
+    slope_index = g.encode_slope(0, 0)
     start_node, end_node = g.decode_slope(4)
-    print(g.graph[2][1]['lift'])
+    print(slope_index)
     print(start_node, end_node)
 
 if __name__ == '__main__':
