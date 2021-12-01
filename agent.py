@@ -1,10 +1,8 @@
-from networkx.classes import graph
 import numpy as np
 
 class Agent:
 
 	def __init__(self, parent_graph, start_node):
-
 		self._parent_graph = parent_graph
 
 		self._queue_position = 0

@@ -23,6 +23,10 @@ class Graph:
         graph.add_edge(5, 3, lift = False, difficulty = 0.75, time = 3)
         return graph
 
+    def _set_edge_attribute(self, edge, attribute, value):
+        start, end = self.decode_slope(edge)
+        self.graph[start][end][attribute] = value
+
     def get_neighbors(self, position):
         return self.graph[position]
 
@@ -56,10 +60,6 @@ class Graph:
     def leave_queue(self, edge):
         start, end = self.decode_slope(edge)
         self.graph[start][end]['queue'] -= 1
-
-    def _set_edge_attribute(self, edge, attribute, value):
-        start, end = self.decode_slope(edge)
-        self.graph[start][end][attribute] = value
 
     def get_queues(self):
         queues = [self.graph[1][2]['queue'], self.graph[1][4]['queue'], self.graph[3][4]['queue'], self.graph[5][4]['queue']]
