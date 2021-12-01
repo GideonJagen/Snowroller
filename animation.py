@@ -36,11 +36,10 @@ options = {
 colors = nx.get_edge_attributes(slope,'color').values()                                                                                                          
 
 graph = Graph()
-agent = Agent(graph, 1)
 agents = []
 for agent in range(1000):
     agents.append(Agent(graph, 1))
-Agent(graph, 1)
+
 def animate(frame):
 
     nodes = np.zeros(5)
@@ -52,17 +51,18 @@ def animate(frame):
         else:
             nodes[int(agent._node) -1] += 1
 
+    positions = graph.component_population
     fig.clear()
     nx.draw_networkx(lift, pos,style="dashed", with_labels=False, **options)
     nx.draw_networkx(slope, pos, edge_color=colors, with_labels=False, connectionstyle="arc3,rad=0.1", **options)
     nx.draw_networkx_labels(
         lift, pos,
         labels={
-            1: int(nodes[0]),
-            2: int(nodes[1]),
-            3: int(nodes[2]),
-            4: int(nodes[3]),
-            5: int(nodes[4])
+            1: int(positions[1]),
+            2: int(positions[2]),
+            3: int(positions[3]),
+            4: int(positions[4]),
+            5: int(positions[5])
             },
             font_color='black',
             font_size='15'
@@ -71,10 +71,10 @@ def animate(frame):
     nx.draw_networkx_edge_labels(
         lift, pos,
         edge_labels={
-            (1, 2): int(edges[12]),
-            (1, 4): int(edges[23]),
-            (3, 4): int(edges[36]),
-            (5, 4): int(edges[53])
+            (1, 2): int(positions[13]),
+            (1, 4): int(positions[24]),
+            (3, 4): int(positions[37]),
+            (5, 4): int(positions[54])
         },
         font_color='black',
         label_pos=0.75,
@@ -83,11 +83,11 @@ def animate(frame):
     nx.draw_networkx_edge_labels(
         slope, pos,
         edge_labels={
-            (2, 1): int(edges[11]),
-            (2, 3): int(edges[22]),
-            (4, 1): int(edges[20]),
-            (4, 5): int(edges[54]),
-            (5, 3): int(edges[43]),
+            (2, 1): int(positions[12]),
+            (2, 3): int(positions[23]),
+            (4, 1): int(positions[21]),
+            (4, 5): int(positions[55]),
+            (5, 3): int(positions[44]),
             },
         font_color='black', 
         font_size='15',
@@ -95,6 +95,6 @@ def animate(frame):
         clip_on=False
     )
 
-ani = animation.FuncAnimation(fig, animate, frames=6, interval=1000, repeat=True)
+ani = animation.FuncAnimation(fig, animate, frames=1, interval=1000, repeat=True)
 
 plt.show()
