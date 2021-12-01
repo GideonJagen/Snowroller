@@ -74,8 +74,7 @@ class Agent:
 
 			# select destination edge based on scores
 			neighbour_edges = list(map(lambda n: self._parent_graph.encode_slope(self._node, n), neighbours))
-			neighbour_scores = itemgetter(*neighbour_edges)(self._scoring)
-			if type(neighbour_scores)==np.float64: neighbour_scores = [neighbour_scores]
+			neighbour_scores = np.array(itemgetter(*neighbour_edges)(self._scoring)).flatten()
 			destination = np.random.choice(neighbour_edges, p=neighbour_scores/np.sum(neighbour_scores))
 
 			# randomly select destination
