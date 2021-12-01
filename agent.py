@@ -14,6 +14,8 @@ class Agent:
 		self._timer = 0.0
 		#self.queue_times = np.array()
 
+		self._parent_graph.component_population[start_node] += 1
+
 	def update(self, dt=1):
 		if self._queue_position:
 			self._queue_position -= self._parent_graph.get_edge_attribute(self._queue_destination, 'capacity')*dt
@@ -22,12 +24,14 @@ class Agent:
 				self._queue_position = 0
 				self._timer = self._parent_graph.get_edge_attribute(self._queue_destination, 'time')
 				self._edge = self._queue_destination
+				self._parent_graph.reposition_agent(self._node, self._edge)
 				self._queue_destination = None
 		elif self._edge:
 			# wait to arrive at destination node
 			self._timer -= dt
 			if self._timer <= 0.0:
 				_, self._node = self._parent_graph.decode_slope(self._edge)
+				self._parent_graph.reposition_agent(self._edge, self._node)
 				self._edge = None
 		else:
 			# fetch neighbours
@@ -46,6 +50,7 @@ class Agent:
 
 				# enter edge
 				self._edge = destination
+				self._parent_graph.reposition_agent(self._node, self._edge)
 
 	def print_status(self):
 		if self._edge:
