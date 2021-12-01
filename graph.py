@@ -36,28 +36,28 @@ class Graph:
             graph.add_edge(11, 10, lift = True, queue = 0, time=5.5, capacity=36.67) #Plato
             graph.add_edge(12, 11, lift = True, queue = 0, time=9.5, capacity=32.33) #mosta
 
-            graph.add_edge(2, 3,difficulty=0.75, lift = False, time = 3)
+            graph.add_edge(2, 3,difficulty=0.75, lift = False, time = 1)
             graph.add_edge(2, 3,difficulty=0.5, lift = False, time = 3)    # 2 Backar
-            graph.add_edge(4, 1,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(4, 3,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(3, 1,difficulty=0.5, lift = False, time = 3)
+            graph.add_edge(4, 1,difficulty=0.5, lift = False, time = 20)
+            graph.add_edge(4, 3,difficulty=0.5, lift = False, time = 14)
+            graph.add_edge(3, 1,difficulty=0.5, lift = False, time = 6)
             graph.add_edge(5, 4,difficulty=1, lift = False, time = 3)
             graph.add_edge(6, 7,difficulty=0.75, lift = False, time = 3)
-            graph.add_edge(6, 8,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(6, 8,difficulty=0.75, lift = False, time = 3)    #2 stycken
-            graph.add_edge(8, 7,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(7, 4,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(8, 12,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(9, 8,difficulty=0.75, lift = False, time = 3)
-            graph.add_edge(9, 5,difficulty=0.75, lift = False, time = 3)
+            graph.add_edge(6, 8,difficulty=0.5, lift = False, time = 7)
+            graph.add_edge(6, 8,difficulty=0.75, lift = False, time = 4)    #2 stycken
+            graph.add_edge(8, 7,difficulty=0.5, lift = False, time = 6)
+            graph.add_edge(7, 4,difficulty=0.5, lift = False, time = 8)
+            graph.add_edge(8, 12,difficulty=0.5, lift = False, time = 6)
+            graph.add_edge(9, 8,difficulty=0.75, lift = False, time = 6)
+            graph.add_edge(9, 5,difficulty=0.75, lift = False, time = 4)
             graph.add_edge(5, 6,difficulty=0.75, lift = False, time = 3)
             graph.add_edge(10, 9,difficulty=0.75, lift = False, time = 3)
-            graph.add_edge(10, 5,difficulty=0.75, lift = False, time = 3)
-            graph.add_edge(10, 11,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(9, 11,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(11, 8,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(11, 12,difficulty=0.5, lift = False, time = 3)
-            graph.add_edge(12, 2,difficulty=0.25, lift = False, time = 3)
+            graph.add_edge(10, 5,difficulty=0.75, lift = False, time = 10)
+            graph.add_edge(10, 11,difficulty=0.5, lift = False, time = 14)
+            graph.add_edge(9, 11,difficulty=0.5, lift = False, time = 8)
+            graph.add_edge(11, 8,difficulty=0.5, lift = False, time = 8)
+            graph.add_edge(11, 12,difficulty=0.5, lift = False, time = 7)
+            graph.add_edge(12, 2,difficulty=0.25, lift = False, time = 4)
         return graph
 
     def _set_edge_attribute(self, edge, attribute, value):
@@ -98,7 +98,20 @@ class Graph:
         self.graph[start][end]['queue'] -= 1
 
     def get_queues(self):
-        queues = [self.graph[1][2]['queue'], self.graph[1][4]['queue'], self.graph[3][4]['queue'], self.graph[5][4]['queue']]
+        queues = [
+            self.graph[1][2]['queue'],
+            self.graph[3][2]['queue'],
+            self.graph[2][4]['queue'],
+            self.graph[4][5]['queue'],
+            self.graph[4][6]['queue'],
+            self.graph[7][6]['queue'],
+            self.graph[8][6]['queue'],
+            self.graph[8][9]['queue'],
+            self.graph[5][10]['queue'],
+            self.graph[8][11]['queue'],
+            self.graph[11][10]['queue'],
+            self.graph[12][11]['queue'],
+            ]
         return queues
 
 

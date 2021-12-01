@@ -64,7 +64,7 @@ options = {
 
 graph = Graph(bansko=True)
 agents = []
-for agent in range(1000):
+for agent in range(4000):
     agents.append(Agent(graph, 1))
 
 def animate(frame):
