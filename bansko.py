@@ -2,18 +2,18 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 lift = nx.DiGraph()     #weight, tid, people/tid, allt i min
-lift.add_edge(1, 2, lift = True, queue = 0, time=10, pph=33.3)    #bansko
-lift.add_edge(3, 2, lift = True, queue = 0, time=4, pph=32.75)   #chalin valog
-lift.add_edge(2, 4, lift = True, queue = 0, time=11, pph=33.3)   #bansko
-lift.add_edge(4, 5, lift = True, queue = 0, time=6.3, pph=33.33)   #Banderitza 1
-lift.add_edge(4, 6, lift = True, queue = 0, time=2.5, pph=50)   #Kolarski
-lift.add_edge(7, 6, lift = True, queue = 0, time=7.2, pph=15.9)   #stara kotva
-lift.add_edge(8, 6, lift = True, queue = 0, time=6.5, pph=15.9)   #detska kotva
-lift.add_edge(8, 9, lift = True, queue = 0, time=7, pph=33.3)   #todorka
-lift.add_edge(5, 10, lift = True, queue = 0, time=3.5, pph=33.33)  #Banderitza 2
-lift.add_edge(8, 11, lift = True, queue = 0, time=7.5, pph=33.33)  #shiligarnik
-lift.add_edge(11, 10, lift = True, queue = 0, time=5.5, pph=36.67) #Plato
-lift.add_edge(12, 11, lift = True, queue = 0, time=9.5, pph=32.33) #mosta
+lift.add_edge(1, 2, lift = True, queue = 0, time=10, pph=33.3)      #bansko
+lift.add_edge(3, 2, lift = True, queue = 0, time=4, pph=32.75)      #chalin valog
+lift.add_edge(2, 4, lift = True, queue = 0, time=11, pph=33.3)      #bansko
+lift.add_edge(4, 5, lift = True, queue = 0, time=6.3, pph=33.33)    #Banderitza 1
+lift.add_edge(4, 6, lift = True, queue = 0, time=2.5, pph=50)       #Kolarski
+lift.add_edge(7, 6, lift = True, queue = 0, time=7.2, pph=15.9)     #stara kotva
+lift.add_edge(8, 6, lift = True, queue = 0, time=6.5, pph=15.9)     #detska kotva
+lift.add_edge(8, 9, lift = True, queue = 0, time=7, pph=33.3)       #todorka
+lift.add_edge(5, 10, lift = True, queue = 0, time=3.5, pph=33.33)   #Banderitza 2
+lift.add_edge(8, 11, lift = True, queue = 0, time=7.5, pph=33.33)   #shiligarnik
+lift.add_edge(11, 10, lift = True, queue = 0, time=5.5, pph=36.67)  #Plato
+lift.add_edge(12, 11, lift = True, queue = 0, time=9.5, pph=32.33)  #mosta
 
 
 

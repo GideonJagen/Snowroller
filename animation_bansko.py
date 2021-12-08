@@ -23,6 +23,9 @@ lift.add_edge(8, 11, weight=1, time=7.5, pph=33.33)  #shiligarnik
 lift.add_edge(11, 10, weight=1, time=5.5, pph=36.67) #Plato
 lift.add_edge(12, 11, weight=1, time=9.5, pph=32.33) #mosta
 
+lift.add_edge(1, 11, queue = 0, time=9.5, pph=32.33) #miproved lift
+
+
 
 
 slope = nx.DiGraph()
@@ -51,7 +54,7 @@ slope.add_edge(12, 2,color='g', weight=1)
 
 
 # explicitly set positions
-pos = {1: (0.9,0),2:(1.3,8),3:(1.3,4),4:(2.15,11),5:(1.87,22),6:(1.8,17),7:(1.75,12),8:(1.55,14),9:(1.85,30),10:(1.9,36),11:(1.4,27),12:(1.3,13)}
+pos = {1: (0.9,0),2:(1.3,8),3:(1.3,4),4:(2.15,11),5:(1.87,22),6:(1.8,17),7:(1.75,12),8:(1.55,14),9:(1.85,30),10:(1.9,36),11:(1.4,27),12:(1.3,13),13:(0.8,8)}
 colors = nx.get_edge_attributes(slope,'color').values()                                                                                                          
 options = {
     "font_size": 9,
@@ -110,6 +113,7 @@ def animate(frame):
             (8, 11): positions[graph.encode_slope(8, 11)],
             (8, 9): positions[graph.encode_slope(8, 9)],
             (11, 10): positions[graph.encode_slope(11, 10)],
+            (1, 11): positions[graph.encode_slope(1, 11)],
             (12, 11): positions[graph.encode_slope(12, 11)],
         },
         font_color='black',
