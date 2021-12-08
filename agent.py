@@ -58,6 +58,14 @@ class Agent:
 	def update(self, dt=1):
 		if self._queue_position:
 			self._queue_position -= self._parent_graph.get_edge_attribute(self._queue_destination, 'capacity')*dt
+
+			# update queue memory
+			neighbours = self._parent_graph.get_neighbors(self._node)
+			neighbour_edges = list(map(lambda n: self._parent_graph.encode_slope(self._node, n), neighbours))
+			for edge_id in neighbour_edges:
+				if self._parent_graph.get_edge_attribute(edge_id, 'lift') == True:
+					self._queue_time_memory[edge_id] = self._parent_graph.get_edge_attribute(edge_id, 'queue')
+
 			if self._queue_position <= 0:
 				self._parent_graph.leave_queue(self._queue_destination)
 				self._queue_position = 0
@@ -85,10 +93,6 @@ class Agent:
 			neighbour_edges = list(map(lambda n: self._parent_graph.encode_slope(self._node, n), neighbours))
 			neighbour_scores = np.array(itemgetter(*neighbour_edges)(self._scoring)).flatten()
 			destination = np.random.choice(neighbour_edges, p=neighbour_scores/np.sum(neighbour_scores))
-
-			# update queue memory
-			for edge_id in neighbour_edges:
-				self._queue_time_memory[edge_id] = self._parent_graph.get_edge_attribute(edge_id, 'queue')
 
 			# select destination based on path to goal edge
 
