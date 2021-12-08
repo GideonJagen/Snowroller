@@ -11,11 +11,14 @@ class Agent:
 		self._queue_destination = None
 		self._node = start_node # current node index
 		self._edge = None # index if agent is on edge
+		self._goal = None # node index of selected goal
 		#self.group_size =  1 + int(4 * np.random.rand())
 		self._skill_level = 0.25 + np.random.rand() * 0.75
 		self._timer = 0.0
-		#self.queue_times = np.array()
 		self._scoring = self._score_edges()
+
+		# initialise queue memory (skiier naively assumes everything is empty to start with)
+		self._queue_time_memory = dict.fromkeys(self._parent_graph.lift_indices, 0)
 
 		self._parent_graph.component_population[start_node] += 1
 
@@ -50,7 +53,6 @@ class Agent:
 
 		return scoring
 
-
 		self._parent_graph.component_population[start_node] += 1
 
 	def update(self, dt=1):
@@ -70,6 +72,11 @@ class Agent:
 				_, self._node = self._parent_graph.decode_slope(self._edge)
 				self._parent_graph.reposition_agent(self._edge, self._node)
 				self._edge = None
+
+				# select new goal edge (start node)
+				# selection could be based on ranking + queue memory reciprocal + random perturbation
+
+
 		else:
 			# fetch neighbours
 			neighbours = self._parent_graph.get_neighbors(self._node)
@@ -78,6 +85,12 @@ class Agent:
 			neighbour_edges = list(map(lambda n: self._parent_graph.encode_slope(self._node, n), neighbours))
 			neighbour_scores = np.array(itemgetter(*neighbour_edges)(self._scoring)).flatten()
 			destination = np.random.choice(neighbour_edges, p=neighbour_scores/np.sum(neighbour_scores))
+
+			# update queue memory
+			for edge_id in neighbour_edges:
+				self._queue_time_memory[edge_id] = self._parent_graph.get_edge_attribute(edge_id, 'queue')
+
+			# select destination based on path to goal edge
 
 			# randomly select destination
 			#destination = self._parent_graph.encode_slope(self._node, np.random.choice(list(neighbours.keys())))
