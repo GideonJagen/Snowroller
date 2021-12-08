@@ -6,6 +6,8 @@ class Graph:
     def __init__(self, bansko) -> None:
         self.graph = self._init_graph(bansko)
         self.component_population = np.zeros(self.encode_slope(self.graph.number_of_nodes(), self.graph.number_of_nodes()) + 1)
+        self.lift_indices = self._get_lift_inices()
+        self.slope_indices = self._get_slope_inices()
         
 
     def _init_graph(self, bansko):
@@ -24,13 +26,13 @@ class Graph:
             graph.add_edge(5, 3, lift = False, difficulty = 0.75, time = 3)
         else:
             graph.add_edge(1, 2, lift = True, queue = 0, time=10,capacity=33.3) #capacity=33.3)    #bansko
-            graph.add_edge(3, 2, lift = True, queue = 0, time=4, capacity=32.75)   #chalin valog
-            graph.add_edge(2, 4, lift = True, queue = 0, time=11, capacity=33.3)   #bansko
-            graph.add_edge(4, 5, lift = True, queue = 0, time=6.3, capacity=33.33)   #Banderitza 1
-            graph.add_edge(4, 6, lift = True, queue = 0, time=2.5, capacity=50)   #Kolarski
-            graph.add_edge(7, 6, lift = True, queue = 0, time=7.2, capacity=15.9)   #stara kotva
+            graph.add_edge(3, 2, lift = True, queue = 0, time=4, capacity=32.75)    #chalin valog
+            graph.add_edge(2, 4, lift = True, queue = 0, time=11, capacity=33.3)    #bansko
+            graph.add_edge(4, 5, lift = True, queue = 0, time=6.3, capacity=33.33)  #Banderitza 1
+            graph.add_edge(4, 6, lift = True, queue = 0, time=2.5, capacity=50)     #Kolarski
+            graph.add_edge(7, 6, lift = True, queue = 0, time=7.2, capacity=32)#15.9)   #stara kotva
             graph.add_edge(8, 6, lift = True, queue = 0, time=6.5, capacity=15.9)   #detska kotva
-            graph.add_edge(8, 9, lift = True, queue = 0, time=7, capacity=33.3)   #todorka
+            graph.add_edge(8, 9, lift = True, queue = 0, time=7, capacity=33.3)     #todorka
             graph.add_edge(5, 10, lift = True, queue = 0, time=3.5, capacity=33.33)  #Banderitza 2
             graph.add_edge(8, 11, lift = True, queue = 0, time=7.5, capacity=33.33)  #shiligarnik
             graph.add_edge(11, 10, lift = True, queue = 0, time=5.5, capacity=36.67) #Plato
@@ -96,6 +98,20 @@ class Graph:
     def enter_queue(self, edge):
         start, end = self.decode_slope(edge)
         self.graph[start][end]['queue'] += 1
+    
+    def _get_lift_inices(self):
+        lifts = []
+        for edge in self.graph.edges.data():
+            if edge[2]['lift']:
+                lifts.append(self.encode_slope(edge[0], edge[1]))
+        return lifts
+
+    def _get_slope_inices(self):
+        slopes = []
+        for edge in self.graph.edges.data():
+            if not edge[2]['lift']:
+                slopes.append(self.encode_slope(edge[0], edge[1]))
+        return slopes
 
     def leave_queue(self, edge):
         start, end = self.decode_slope(edge)
@@ -141,9 +157,10 @@ class Graph:
 
 def main():
     g = Graph(bansko=True)
-    slope_index = g.encode_slope(12, 12)
+    lift_indices = g.lift_indices
     #start_node, end_node = g.decode_slope(4)
-    print(slope_index)
+    for lift in lift_indices:
+        print(g.decode_slope(lift))
     #print(start_node, end_node)
 
 if __name__ == '__main__':
