@@ -1,4 +1,5 @@
 from networkx.classes import graph
+from networkx import shortest_path
 from operator import itemgetter
 import numpy as np
 
@@ -11,14 +12,14 @@ class Agent:
 		self._queue_destination = None
 		self._node = start_node # current node index
 		self._edge = None # index if agent is on edge
-		self._goal = None # node index of selected goal
+		self._goal = np.random.choice(self._parent_graph.slope_indices) # select random initial goal slope
 		#self.group_size =  1 + int(4 * np.random.rand())
 		self._skill_level = 0.25 + np.random.rand() * 0.75
 		self._timer = 0.0
 		self._scoring = self._score_edges()
 
 		# initialise queue memory (skiier naively assumes everything is empty to start with)
-		self._queue_time_memory = dict.fromkeys(self._parent_graph.lift_indices, 0)
+		self._queue_memory = dict.fromkeys(self._parent_graph.lift_indices, 0)
 
 		self._parent_graph.component_population[start_node] += 1
 
@@ -64,7 +65,7 @@ class Agent:
 			neighbour_edges = list(map(lambda n: self._parent_graph.encode_slope(self._node, n), neighbours))
 			for edge_id in neighbour_edges:
 				if self._parent_graph.get_edge_attribute(edge_id, 'lift') == True:
-					self._queue_time_memory[edge_id] = self._parent_graph.get_edge_attribute(edge_id, 'queue')
+					self._queue_memory[edge_id] = self._parent_graph.get_edge_attribute(edge_id, 'queue')
 
 			if self._queue_position <= 0:
 				self._parent_graph.leave_queue(self._queue_destination)
@@ -78,23 +79,38 @@ class Agent:
 			self._timer -= dt
 			if self._timer <= 0.0:
 				_, self._node = self._parent_graph.decode_slope(self._edge)
+
+				if self._edge == self._goal:
+					# select new goal edge (start node)
+					# selection based on p*(ranking) + q*(queue memory reciprocal) + r*(random perturbation)
+					# where p, q, r are arbitrarily chosen weight parameters
+					p, q, r = [1, 10, 1/4]
+					goal_score = dict.fromkeys(self._parent_graph.slope_indices, 0)
+					for slope in self._parent_graph.slope_indices:
+						#goal_score[slope] = p * self._scoring[slope] + q / self._queue_memory[slope] + r * np.random.rand()
+						goal_score[slope] = p * self._scoring[slope] + r * np.random.rand() # removed memory for now
+					self._goal = np.random.choice(list(goal_score.keys()), p=list(goal_score.values())/np.sum(list(goal_score.values())))
+
 				self._parent_graph.reposition_agent(self._edge, self._node)
 				self._edge = None
-
-				# select new goal edge (start node)
-				# selection could be based on ranking + queue memory reciprocal + random perturbation
-
 
 		else:
 			# fetch neighbours
 			neighbours = self._parent_graph.get_neighbors(self._node)
 
 			# select destination edge based on scores
-			neighbour_edges = list(map(lambda n: self._parent_graph.encode_slope(self._node, n), neighbours))
-			neighbour_scores = np.array(itemgetter(*neighbour_edges)(self._scoring)).flatten()
-			destination = np.random.choice(neighbour_edges, p=neighbour_scores/np.sum(neighbour_scores))
+			#neighbour_edges = list(map(lambda n: self._parent_graph.encode_slope(self._node, n), neighbours))
+			#neighbour_scores = np.array(itemgetter(*neighbour_edges)(self._scoring)).flatten()
+			#destination = np.random.choice(neighbour_edges, p=neighbour_scores/np.sum(neighbour_scores))
 
 			# select destination based on path to goal edge
+			goal_node, _ = self._parent_graph.decode_slope(self._goal)
+			path = shortest_path(self._parent_graph.graph, source=self._node, target=goal_node)
+			if self._node == goal_node:
+				# go down the goal slope you earned it ;)
+				destination = self._goal
+			else:
+				destination = self._parent_graph.encode_slope(path[0], path[1])
 
 			# randomly select destination
 			#destination = self._parent_graph.encode_slope(self._node, np.random.choice(list(neighbours.keys())))
