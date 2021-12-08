@@ -23,7 +23,7 @@ class Graph:
             graph.add_edge(4, 5, lift = False, difficulty = 0.75, time = 3)
             graph.add_edge(5, 3, lift = False, difficulty = 0.75, time = 3)
         else:
-            graph.add_edge(1, 2, lift = True, queue = 0, time=10, capacity=33.3)    #bansko
+            graph.add_edge(1, 2, lift = True, queue = 0, time=10,capacity=33.3) #capacity=33.3)    #bansko
             graph.add_edge(3, 2, lift = True, queue = 0, time=4, capacity=32.75)   #chalin valog
             graph.add_edge(2, 4, lift = True, queue = 0, time=11, capacity=33.3)   #bansko
             graph.add_edge(4, 5, lift = True, queue = 0, time=6.3, capacity=33.33)   #Banderitza 1
@@ -35,6 +35,10 @@ class Graph:
             graph.add_edge(8, 11, lift = True, queue = 0, time=7.5, capacity=33.33)  #shiligarnik
             graph.add_edge(11, 10, lift = True, queue = 0, time=5.5, capacity=36.67) #Plato
             graph.add_edge(12, 11, lift = True, queue = 0, time=9.5, capacity=32.33) #mosta
+
+            graph.add_edge(1, 11, lift = True, queue = 0, time=9.5, capacity=32.33) #miproved lift
+            #kan också förbättra genom att dubbla capaciteten av lift 1-2
+            #lift.add_edge(13, 12, lift = True, queue = 0, time=9.5, pph=32.33) #miproved lift
 
             graph.add_edge(2, 3,difficulty=0.75, lift = False, time = 1)
             graph.add_edge(2, 3,difficulty=0.5, lift = False, time = 3)    # 2 Backar
@@ -111,8 +115,27 @@ class Graph:
             self.graph[8][11]['queue'],
             self.graph[11][10]['queue'],
             self.graph[12][11]['queue'],
+            self.graph[1][11]['queue']
             ]
         return queues
+
+    def get_capacities(self):
+        capacities = [
+            self.graph[1][2]['capacity'],
+            self.graph[3][2]['capacity'],
+            self.graph[2][4]['capacity'],
+            self.graph[4][5]['capacity'],
+            self.graph[4][6]['capacity'],
+            self.graph[7][6]['capacity'],
+            self.graph[8][6]['capacity'],
+            self.graph[8][9]['capacity'],
+            self.graph[5][10]['capacity'],
+            self.graph[8][11]['capacity'],
+            self.graph[11][10]['capacity'],
+            self.graph[12][11]['capacity'],
+            self.graph[1][11]['capacity']
+        ]
+        return capacities
 
 
 
