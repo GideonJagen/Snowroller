@@ -30,7 +30,7 @@ class Graph:
             graph.add_edge(2, 4, lift = True, queue = 0, time=11, capacity=33.3)    #bansko
             graph.add_edge(4, 5, lift = True, queue = 0, time=6.3, capacity=33.33)  #Banderitza 1
             graph.add_edge(4, 6, lift = True, queue = 0, time=2.5, capacity=50)     #Kolarski
-            graph.add_edge(7, 6, lift = True, queue = 0, time=7.2, capacity=32)#15.9)   #stara kotva
+            graph.add_edge(7, 6, lift = True, queue = 0, time=7.2, capacity=15.9)   #stara kotva
             graph.add_edge(8, 6, lift = True, queue = 0, time=6.5, capacity=15.9)   #detska kotva
             graph.add_edge(8, 9, lift = True, queue = 0, time=7, capacity=33.3)     #todorka
             graph.add_edge(5, 10, lift = True, queue = 0, time=3.5, capacity=33.33)  #Banderitza 2

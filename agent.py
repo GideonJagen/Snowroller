@@ -17,6 +17,7 @@ class Agent:
 		self._skill_level = 0.25 + np.random.rand() * 0.75
 		self._timer = 0.0
 		self._scoring = self._score_edges()
+		self.time_in_queue = 0
 
 		# initialise queue memory (skiier naively assumes everything is empty to start with)
 		self._queue_memory = dict.fromkeys(self._parent_graph.lift_indices, 0)
@@ -58,6 +59,7 @@ class Agent:
 
 	def update(self, dt=1):
 		if self._queue_position:
+			self.time_in_queue += 1
 			self._queue_position -= self._parent_graph.get_edge_attribute(self._queue_destination, 'capacity')*dt
 
 			# update queue memory

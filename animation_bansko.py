@@ -23,7 +23,7 @@ lift.add_edge(8, 11, weight=1, time=7.5, pph=33.33)  #shiligarnik
 lift.add_edge(11, 10, weight=1, time=5.5, pph=36.67) #Plato
 lift.add_edge(12, 11, weight=1, time=9.5, pph=32.33) #mosta
 
-lift.add_edge(1, 11, queue = 0, time=9.5, pph=32.33) #miproved lift
+#lift.add_edge(1, 11, queue = 0, time=9.5, pph=32.33) #miproved lift
 
 
 
@@ -72,11 +72,14 @@ for agent in range(4000):
 
 def animate(frame):
 
+    saves_steps = [1, 50, 100, 150, 200, 250, 300, 350, 400, 450, 480]
+
     for agent in agents:
         agent.update()
 
     positions = graph.component_population
     fig.clear()
+    fig.suptitle(frame+1)
     nx.draw_networkx(lift, pos,style="dashed", with_labels=False, **options)
     nx.draw_networkx(slope, pos, edge_color=colors, with_labels=False, connectionstyle="arc3,rad=0.1", **options)
     nx.draw_networkx_labels(
@@ -113,7 +116,7 @@ def animate(frame):
             (8, 11): positions[graph.encode_slope(8, 11)],
             (8, 9): positions[graph.encode_slope(8, 9)],
             (11, 10): positions[graph.encode_slope(11, 10)],
-            (1, 11): positions[graph.encode_slope(1, 11)],
+            #(1, 11): positions[graph.encode_slope(1, 11)],
             (12, 11): positions[graph.encode_slope(12, 11)],
         },
         font_color='black',
@@ -152,6 +155,14 @@ def animate(frame):
         clip_on=False
     )
 
-ani = animation.FuncAnimation(fig, animate, frames=1, interval=1000, repeat=True)
+    if (frame + 1) in saves_steps:
+        plt.savefig(f"./figures/{frame}.png")
+
+    if frame > 480:
+        ani.event_source.stop()
+
+ani = animation.FuncAnimation(fig, animate, frames=500, interval=100, repeat=True)
+#ani.save('./figures/animation.gif', writer='imagemagick', fps=16)
+
 
 plt.show()

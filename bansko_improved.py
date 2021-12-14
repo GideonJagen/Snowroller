@@ -15,9 +15,9 @@ lift.add_edge(8, 11, lift = True, queue = 0, time=7.5, pph=33.33)  #shiligarnik
 lift.add_edge(11, 10, lift = True, queue = 0, time=5.5, pph=36.67) #Plato
 lift.add_edge(12, 11, lift = True, queue = 0, time=9.5, pph=32.33) #mosta
 
-lift.add_edge(1, 11, lift = True, queue = 0, time=9.5, pph=32.33) #miproved lift
+#lift.add_edge(1, 11, lift = True, queue = 0, time=9.5, pph=32.33) #miproved lift
 #kan också förbättra genom att dubbla capaciteten av lift 1-2
-#lift.add_edge(13, 12, lift = True, queue = 0, time=9.5, pph=32.33) #miproved lift
+lift.add_edge(13, 12, lift = True, queue = 0, time=9.5, pph=32.33) #miproved lift
 
 
 slope = nx.DiGraph()

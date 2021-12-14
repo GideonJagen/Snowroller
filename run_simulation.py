@@ -6,8 +6,9 @@ from matplotlib import pyplot as plt
 def main():
 
     graph = Graph(bansko=True)
+    n_agents = 4000
     agents = []
-    for agent in range(4000):
+    for agent in range(n_agents):
         agents.append(Agent(graph, 1))
 
     queue12 = []
@@ -23,10 +24,16 @@ def main():
     queue1110 = []
     queue1211 = []
     queue111 = []
+    queue_procentage = []
     for time in range(480):
+        agents_in_queue = 0
         #print(time)
         for agent in agents:
             agent.update()
+            if agent._queue_position:
+                agents_in_queue += 1
+            queue_procentage.append(agents_in_queue/n_agents)
+
         queues = graph.get_queues()
         capacities = graph.get_capacities()
         queue12.append(queues[0]/capacities[0])
@@ -73,6 +80,15 @@ def main():
 
     fig.text(0.5, 0.04, 'Time (min)', ha='center')
     fig.text(0.04, 0.5, 'Agents in Queue', va='center', rotation='vertical')
+    plt.show()
+
+    agent_queue_procentage = []
+    for agent in agents:
+        agent_queue_procentage.append(agent.time_in_queue/480)
+
+    print(np.mean(agent_queue_procentage))
+
+    plt.plot(queue_procentage)
     plt.show()
 
     
